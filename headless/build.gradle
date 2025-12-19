@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+java.sourceCompatibility = java.targetCompatibility = appJavaCompatibility
+
+ext.appMainClass = "com.shatteredpixel.shatteredpixeldungeon.headless.HeadlessMain"
+application.mainClass = appMainClass
+
+// Test tasks
+tasks.register('testHeadless', JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = "com.shatteredpixel.shatteredpixeldungeon.headless.HeadlessTest"
+}
+
+tasks.register('testDeterminism', JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = "com.shatteredpixel.shatteredpixeldungeon.headless.DeterminismTest"
+}
+
+tasks.register('testStep', JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = "com.shatteredpixel.shatteredpixeldungeon.headless.StepTest"
+}
+
+tasks.register('testActionSpace', JavaExec) {
+	classpath = sourceSets.main.runtimeClasspath
+	mainClass = "com.shatteredpixel.shatteredpixeldungeon.headless.ActionSpaceTest"
+}
+
+processResources {
+    from new File(project(':core').projectDir, "/src/main/assets")
+}
+
+dependencies {
+    implementation project(':core')
+    
+    // LibGDX headless backend
+    implementation "com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion"
+    implementation "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+    // Freetype for font generation (required by PlatformSupport interface)
+    implementation "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+}

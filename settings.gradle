@@ -6,6 +6,7 @@ include ':core'
 include ':android'
 include ':ios'
 include ':desktop'
+include ':headless'
 
 //service modules
 include ':services'
